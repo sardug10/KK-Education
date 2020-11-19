@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link rel="shortcut icon" type="image/png" href="img/logo.png"/>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Signup</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <img src="img/logo.png" alt="logo" class="navbar__logo">
+            <button class="toggle-collapse">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <ul class="navbar__list">
+                <li class="navbar__items"><a href="index.html" class="navbar__links navbar__links--secondary">Home</a></li>
+                <li class="navbar__items"><a href="login.html" class="navbar__links navbar__links--primary">Login</a></li>
+            </ul>
+        </nav>
+
+        <div class="login">
+            <h2 class="heading--primary login__heading">Signup</h2>
+            <form action="#" class="form">
+                <div class="form__group">
+                    <input type="name" class="form__input" placeholder="Name*" id="name" name="name" required>
+                    <label for="name" class="form__label">Name</label>
+                </div>
+                <div class="form__group">
+                    <input type="email" class="form__input" placeholder="E-mail*" id="email" name="email" required>
+                    <label for="email" class="form__label">E-Mail</label>
+                </div>
+                <div class="form__group">
+                    <input type="password" class="form__input" placeholder="Password*" id="password" name="password" required>
+                    <label for="password" class="form__label" >Password</label>
+                </div>
+                <div class="form__group">
+                    <input type="password" class="form__input" placeholder="Confirm-Password*" id="Confirm-Password" name="Confirm-Password" required>
+                    <label for="Confirm-Password" class="form__label" >Confirm-Password</label>
+                </div>
+                <button class="form__submit" type="submit">Signup</button>
+            </form>
+        </div>
+    </header>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

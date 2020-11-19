@@ -1,0 +1,746 @@
+$color-gradient-1: #424597;
+$color-gradient-2: #3b136e;
+$color-font: #65617d;
+$color-button-1: #41398e;
+$color-button-2: #603556;
+$color-gray: #e2e0e0;
+$color-white: #fcfcfc;
+$footer-gradient-1: #de8c95;
+$footer-gradient-2: #65617d;
+
+//basic configurations
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+// MEDIA QUERY MANAGER
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+ORDER: Base + typography > general layout + grid > page layout > components
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+  @if $breakpoint == f-hundred {
+    @media only screen and (max-width: 31.25em) {
+      @content;
+    } //500px
+  }
+
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 37.5em) {
+      @content;
+    } //600px
+  }
+
+  @if $breakpoint == e-hundred {
+    @media only screen and (max-width: 50em) {
+      @content;
+    } //800px
+  }
+
+  @if $breakpoint == tab-port {
+    @media only screen and (max-width: 56.25em) {
+      @content;
+    } //900px
+  }
+
+  @if $breakpoint == thousand {
+    @media only screen and (max-width: 62.5em) {
+      @content;
+    } //1000px
+  }
+
+  @if $breakpoint == tab-land {
+    @media only screen and (max-width: 75em) {
+      @content;
+    } //1200px
+  }
+
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 112.5em) {
+      @content;
+    } //1800
+  }
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+
+  @include respond(tab-land) {
+    // width < 1200?
+    font-size: 56.25%; //1 rem = 9px, 9/16 = 50%
+  }
+
+  @include respond(tab-port) {
+    // width < 900?
+    font-size: 50%; //1 rem = 8px, 8/16 = 50%
+  }
+
+  @include respond(big-desktop) {
+    font-size: 75%; //1rem = 12, 12/16
+  }
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  box-sizing: border-box;
+}
+
+header {
+  height: 100vh;
+  background: linear-gradient(
+    to top right,
+    $color-gradient-1,
+    $color-gradient-2
+  );
+  // -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  // clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  color: $color-white;
+  position: relative;
+  margin: 3rem;
+
+  @include respond(thousand) {
+    margin: 0;
+    // height: 90vh;
+  }
+}
+
+/* STICKY NAV*/
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $color-gradient-1;
+  opacity: 0.95;
+  box-shadow: 0px 3px 3px gainsboro;
+  color: $color-gray;
+  z-index: 2999;
+}
+
+.navbar {
+  padding: 1.5rem 0 1rem 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @include respond(tab-port) {
+    padding: 2.5rem 0 1rem 0;
+  }
+  @include respond(phone) {
+    justify-content: space-between;
+  }
+  &__logo {
+    height: 3.5rem;
+
+    @include respond(phone) {
+      margin-left: 5rem;
+    }
+  }
+
+  &__list {
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 400;
+    list-style: none;
+    // margin-right: 3rem;
+
+    @include respond(phone) {
+      flex-direction: column;
+      justify-content: space-evenly;
+      display: none;
+      visibility: hidden;
+    }
+  }
+
+  &__items {
+    &:not(:last-child) {
+      margin-right: 5rem;
+    }
+
+    @include respond(phone) {
+      &:not(:last-child) {
+        margin-bottom: 1.8rem;
+        margin-right: 8rem;
+      }
+    }
+  }
+
+  &__links {
+    text-decoration: none;
+    color: $color-white;
+
+    &--secondary {
+      &:hover {
+        color: $footer-gradient-1;
+      }
+    }
+
+    &--primary {
+      color: #000000;
+      background-color: $color-white;
+      padding: 0.2rem 1.5rem;
+      border-radius: 1rem;
+    }
+  }
+}
+
+// COLLAPSABLE MENU
+.toggle-collapse {
+  position: absolute;
+  right: 3%;
+  font-size: 3.5rem;
+  cursor: pointer;
+  display: none;
+  background: none;
+  border: none;
+  color: $color-gray;
+
+  &:focus {
+    outline: none;
+  }
+
+  @include respond(phone) {
+    display: block;
+  }
+}
+
+.show-menu {
+  display: block;
+  visibility: visible;
+}
+
+.hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  &__img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.2;
+    height: 20rem;
+    margin-bottom: 2.5rem;
+    // z-index: -2;
+  }
+
+  &__heading {
+    font-size: 5.5rem;
+    text-transform: uppercase;
+    font-family: "Times New Roman", Times, serif;
+    margin-bottom: 1rem;
+  }
+
+  &__tagline {
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    font-weight: 400;
+  }
+
+  &__cta {
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    color: $footer-gradient-1;
+    background-color: $color-white;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+  }
+}
+
+.heading--primary {
+  font-size: 5rem;
+  text-transform: capitalize;
+  text-align: center;
+  letter-spacing: 0.2rem;
+  font-family: "Times New Roman", Times, serif;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 10rem;
+    height: 2px;
+    background-color: $color-gradient-1;
+  }
+}
+
+.about {
+  height: auto;
+  padding: 10rem;
+  position: relative;
+
+  @include respond(tab-port) {
+    padding: 7rem;
+  }
+
+  @include respond(phone) {
+    padding: 4.5rem;
+  }
+
+  @include respond(f-hundred) {
+    padding: 2.5rem;
+  }
+
+  &__paradiv {
+    margin-top: 4rem;
+  }
+
+  &__paragraph {
+    margin: 0 8rem;
+    font-size: 1.4rem;
+    color: $color-font;
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+
+    @include respond(phone) {
+      margin: 0 5rem;
+    }
+  }
+
+  &__img {
+    height: 35rem;
+    position: absolute;
+    bottom: -35%;
+    z-index: -2;
+    opacity: 0.7;
+
+    @include respond(tab-port) {
+      height: 30rem;
+    }
+
+    @include respond(phone) {
+      height: 22rem;
+    }
+    @include respond(phone) {
+      height: 20rem;
+      bottom: -30%;
+    }
+  }
+}
+
+.test {
+  height: auto;
+  padding: 10rem;
+  margin-top: 10rem;
+  text-align: center;
+
+  @include respond(tab-port) {
+    padding: 7rem;
+  }
+
+  @include respond(phone) {
+    padding: 4.5rem;
+  }
+
+  &__img {
+    display: inline-block;
+    height: 30rem;
+    transform: translate(-5rem, 3rem);
+
+    @include respond(thousand) {
+      height: 25rem;
+    }
+
+    @include respond(phone) {
+      display: none;
+    }
+  }
+
+  &__div {
+    display: inline-block;
+    margin-top: 6rem;
+    max-width: 30%;
+    font-size: 1.4rem;
+    background-color: $color-gray;
+    padding: 3rem;
+    border-radius: 1rem;
+    position: relative;
+    @include respond(thousand) {
+      max-width: 40%;
+    }
+    @include respond(tab-port) {
+      padding: 2.5rem;
+    }
+    @include respond(phone) {
+      max-width: 45%;
+    }
+    @include respond(f-hundred) {
+      max-width: 70%;
+      padding: 2rem;
+    }
+  }
+
+  &__text {
+    background-color: $color-white;
+    padding: 2.5rem 1.5rem;
+    color: $color-font;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 60%;
+    right: 10%;
+    transform: scale(1.75);
+    color: $color-button-1;
+  }
+
+  &__tagline {
+    margin: 2.5rem 0;
+    font-size: 1.8rem;
+    color: $color-gradient-2;
+  }
+
+  &__cta {
+    text-decoration: none;
+    color: $color-white;
+    background-color: $color-button-1;
+    padding: 1rem 2rem;
+    border-radius: 1.5rem;
+  }
+}
+
+.footer {
+  height: 40vh;
+  width: 95%;
+  background: linear-gradient(
+    to top right,
+    $footer-gradient-1,
+    $footer-gradient-2
+  );
+  border-radius: 0 2.5rem 0 0;
+  position: relative;
+  @include respond(tab-port) {
+    height: 35vh;
+    width: 100%;
+    border-radius: 0;
+  }
+  @include respond(phone) {
+    height: 28vh;
+  }
+  &__div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__links {
+    display: inline-flex;
+    margin-top: 20vh;
+    text-decoration: none;
+
+    &:not(:last-child) {
+      margin-right: 3rem;
+    }
+  }
+
+  &__icons {
+    transform: scale(3);
+    color: $color-white;
+  }
+}
+
+// Login Page
+
+.login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $color-gray;
+  width: 30%;
+  height: auto;
+  border-radius: 0.5rem;
+
+  @include respond(thousand) {
+    width: 45%;
+  }
+
+  @include respond(phone) {
+    width: 55%;
+  }
+
+  @include respond(f-hundred) {
+    width: 60%;
+  }
+
+  &__heading {
+    font-size: 2.5rem;
+    color: $color-font;
+    margin-top: 2rem;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
+      width: 5rem;
+      height: 2px;
+      background-color: $color-gradient-1;
+    }
+  }
+}
+
+.form {
+  padding: 4rem;
+
+  &__group {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__input {
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: $color-font;
+    padding: 0.7rem 1.2rem;
+    border-radius: 2px;
+    background-color: rgba($color-white, 0.5);
+    border: none;
+    border-bottom: 3px solid transparent;
+    width: 100%;
+    display: block;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba($color-gradient-2, 0.1);
+      border-bottom: 3px solid $color-button-1;
+    }
+
+    &:focus:invalid {
+      border-bottom: 3px solid orangered;
+    }
+  }
+
+  &__label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $color-gradient-1;
+    margin-top: 0.7rem;
+    display: block;
+    transition: all 0.3s;
+  }
+
+  &__input:placeholder-shown + &__label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4rem);
+  }
+
+  &__submit {
+    margin: 0 50%;
+    transform: translateX(-50%);
+    color: $color-gray;
+    padding: 1rem 3.5rem;
+    background-color: $color-button-1;
+    border-radius: 2rem;
+    border: none;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// Test Page
+.section--tests {
+  padding: 10rem;
+
+  @include respond(e-hundred) {
+    padding: 7rem;
+  }
+
+  @include respond(f-hundred) {
+    padding: 4rem;
+    text-align: center;
+  }
+}
+
+.navbar--test {
+  background-color: $color-gradient-1;
+}
+
+.tests {
+  margin-top: 5rem;
+  &__entity {
+    background-color: $color-gray;
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+
+    @include respond(e-hundred) {
+      padding: 1rem 1.2rem;
+    }
+
+    &:not(:last-child) {
+      margin-right: 2.5rem;
+
+      @include respond(e-hundred) {
+        margin-right: 2rem;
+      }
+      @include respond(f-hundred) {
+        margin-right: 1.5rem;
+      }
+    }
+
+    @include respond(f-hundred) {
+      padding: 1rem;
+    }
+  }
+
+  &__icon {
+    transform: scale(1.5);
+    margin: 0 1rem;
+    color: $color-button-1;
+  }
+
+  &__date {
+    font-size: 1.4rem;
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+}
+
+.query {
+  padding: 10rem;
+
+  @include respond(tab-port) {
+    padding: 7rem;
+  }
+  @include respond(phone) {
+    padding: 4rem;
+  }
+  @include respond(f-hundred) {
+    padding: 3rem;
+  }
+  &__div {
+    width: 60%;
+    margin: 4rem 20%;
+    padding: 5rem;
+    background-color: $color-gray;
+    // text-align: center;
+
+    @include respond(tab-port) {
+      padding: 3rem;
+    }
+    @include respond(phone) {
+      padding: 2rem;
+      margin: 4rem 12%;
+      width: 70%;
+    }
+    @include respond(f-hundred) {
+      padding: 1.5rem;
+      margin: 4rem 8%;
+      width: 80%;
+      overflow: hidden;
+    }
+  }
+
+  &__heading {
+    font-size: 2rem;
+    font-family: inherit;
+    color: $color-gradient-1;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
+      width: 0;
+      height: 0;
+      background-color: $color-gradient-1;
+    }
+  }
+
+  &__text {
+    display: inline-block;
+    margin: 2.5rem 0 0 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    color: $color-font;
+  }
+
+  &__btn {
+    width: 20rem;
+    @include respond(tab-port) {
+      width: 22rem;
+    }
+  }
+}
+
+// CSS for admin
+.admin {
+  margin-left: 50%;
+  margin-top: 7rem;
+  transform: translateX(-30%);
+
+  @include respond(e-hundred) {
+    transform: translateX(-45%);
+  }
+  // position: absolute;
+  // left: 50%;
+  // top: 25%;
+  // transform: translate(-50%, -50%);
+  // margin-bottom: 5rem;
+
+  &__input {
+    border: none;
+    background-color: $color-button-1;
+    padding: 1rem 1.8rem;
+    color: $color-gray;
+    border-radius: 10rem;
+    margin-right: 2.5rem;
+
+    @include respond(phone) {
+      padding: 1rem 1.8rem;
+      margin: 0rem 0 1.2rem 0rem;
+      background-color: transparent;
+      color: $color-font;
+    }
+  }
+
+  &__submit {
+    border: none;
+    background-color: $color-button-2;
+    padding: 1rem 1.8rem;
+    color: $color-gray;
+    border-radius: 10rem;
+    cursor: pointer;
+
+    @include respond(phone) {
+      padding: 1rem 1.2rem;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
